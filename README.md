@@ -16,9 +16,9 @@
     8.2 crete a new project
     8.3 navigate to APIs and Services
     8.4 Click Credentials, New Credentials, OAuth Client ID
-    8.5 Authorized JavaScript Origins === http://localhost:PORT-FROM-server/index.js
-    8.6 Authorized Redirect URIs === http://localhost:PORT/auth/google/callback
-    8.7 add thr given client id and secret as string to secrets.js:
+    8.5 Authorized JavaScript Origins === http://localhost:7693
+    8.6 Authorized Redirect URIs === http://localhost:769/auth/google/callback
+    8.7 create the file secrets.js in your root directory and add thjer following:
     8.7.1 process.env.GOOGLE_CLIENT_ID = 'hush hush'
     8.7.2 process.env.GOOGLE_CLIENT_SECRET = 'pretty secret'
     8.7.3 process.env.GOOGLE_CALLBACK = '/auth/google/callback'
@@ -35,12 +35,13 @@ Heroku:
     2.1 if heroku links appear, continue...
 3.  CLI: git push heroku master
 4.  CLI: heroku logs --tail
-5.  CLI: npm run delpoy
+5.  CLI: npm run delpoy (This script creates a deploy branch, runs webpack, adds these files to the branch, commits these changes, deploys them to Heroku by git push heroku deploy:master and finally deletes the deploy branch)
 6.  In heroku, go to overview > configure add-ons:
     6.1 search for postgres and click Heroku Postgres > Hobby Dev-Free, click provision
 7.  CLI: heroku run bash
 8.  CLI: npm run seed
 9.  At this point your app should be running on heroku.
+10. Add the Oauth id and keys to the heroku settings > config vars
 
 Travis:
 
