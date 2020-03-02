@@ -12,6 +12,7 @@ router.use('/puppies', require('./routes/puppies'))
 */
 
 router.use('/users', require('./routes/users'))
+router.use('/portfolio', require('./routes/portfolio'))
 router.use('/example', require('./routes/example'))
 
 /*

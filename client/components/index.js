@@ -4,5 +4,10 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './navbar'
-export {default as UserHome} from './user-home'
+// export {default as UserHome} from './profile'
 export {Login, Signup} from './auth-form'
+export {default as Home} from './homepage'
+export {default as Profile} from './Profile'
+// export {default as SignupPage} from './signup-page'
+// export {default as SignupForm} from './signup-form'
+export {default as AuthModal} from './auth-modal'
