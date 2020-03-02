@@ -64,7 +64,7 @@ const Navbar = ({handleClick, accountCreated, signupCompleted}) => {
                 <Button color="#212121" to="/profile" component={NavLink}>
                   Profile
                 </Button>
-                <Button color="#212121" to="/activity" component={NavLink}>
+                <Button color="#212121" to="/userhistory" component={NavLink}>
                   User History
                 </Button>
                 <Button color="#212121" onClick={handleClick}>

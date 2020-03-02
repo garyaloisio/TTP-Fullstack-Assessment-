@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch, Redirect} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Home, SignupPage, Profile} from './components'
+import {Home, SignupPage, Profile, UserHistory} from './components'
 import {me} from './store'
 import {withStyles} from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
@@ -31,24 +31,18 @@ class Routes extends Component {
         <Switch>
           {/* Routes placed here are available to all visitors */}
           <Route exact path="/" component={Home} />
-          {/* <Route path="/face-api" component={FaceapiTest} />
-          <Route path="/upload-bw-face" component={UploadBWFace} />
-          <Route path="/create-face" component={CreateFace} /> */}
-          {/* <Route path="/matches" component={Matches} /> */}
           {accountCreated &&
             signupCompleted && (
               <Switch>
-                {/* Routes placed here are only available after logging in */}
-                {/* <Route path="/matches" component={Matches} /> */}
                 <Route path="/profile" component={Profile} />
+                <Route path="/userhistory" component={UserHistory} />
               </Switch>
             )}
           {accountCreated &&
             !signupCompleted && (
               <Switch>
-                {/* Routes here are available for users who have not created an account or have not completed sign up */}
-                {/* <Route path="/signup" component={SignupPage} /> */}
                 <Route path="/profile" component={Profile} />
+                <Route path="/userhistory" component={UserHistory} />
               </Switch>
             )}
           {/* Displays our Login component as a fallback */}

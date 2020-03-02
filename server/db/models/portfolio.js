@@ -20,7 +20,8 @@ const Portfolio = db.define('portfolio', {
     type: Sequelize.DECIMAL,
     defaultValue: 0,
     validate: {
-      min: 0
+      notEmpty: true,
+      isDecimal: true
     }
   }
 })

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import axios from 'axios'
 
+require('../../secrets')
+
 class Profile extends Component {
   constructor(props) {
     super(props)
@@ -23,7 +25,6 @@ class Profile extends Component {
       .then(res => res.json())
       .then(
         result => {
-          // console.log('HELLOOOO', result)
           this.setState({
             isLoaded: true,
             items: result
@@ -47,14 +48,15 @@ class Profile extends Component {
     })
   }
 
-  async handleClick(stockName, price, quantity) {
-    // e.preventDefault()
-    await axios.post('/portfolio', {
+  async handleClick(stockName, price, quantity, id, budget) {
+    await axios.post('/api/portfolio', {
       stock: stockName,
       quantity: quantity,
-      price: price
+      price: price * quantity,
+      userId: this.props.id,
+      budget: this.props.budget
     })
-    console.log(stockName, price, quantity)
+    console.log(stockName, price, quantity, id, budget)
   }
 
   render() {
@@ -66,7 +68,6 @@ class Profile extends Component {
     } else if (!isLoaded) {
       return <div>Loading...</div>
     } else {
-      // console.log('helllooooo', Object.values(items))
       let values = Object.values(items)
       values.forEach(stock => {
         console.log(stock.quote.symbol)
@@ -94,9 +95,6 @@ class Profile extends Component {
                     value={this.state.quantity}
                     onChange={this.handleChange}
                   >
-                    {/* {.map(i => {
-                            return <option>{i + 1}</option>
-                          })} */}
                     <option>{1}</option>
                     <option>{2}</option>
                     <option>{3}</option>
@@ -109,38 +107,15 @@ class Profile extends Component {
                     this.handleClick(
                       stock.quote.symbol,
                       stock.quote.latestPrice,
-                      this.state.quantity
+                      this.state.quantity,
+                      this.props.id,
+                      this.props.budget
                     )
                   }
                 >
                   Buy
                 </button>
-                {/* <form onSubmit={this.handleSubmit}>
-                  <div>
-                    <label>Quantity:</label>
-                    <select
-                      type="text"
-                      name="quantity"
-                      value={this.state.quantity}
-                      onChange={this.handleChange}
-                    > */}
-                {/* {.map(i => {
-                            return <option>{i + 1}</option>
-                          })} */}
-                {/* <option>{1}</option>
-                      <option>{2}</option>
-                      <option>{3}</option>
-                      <option>{4}</option>
-                      <option>{5}</option>
-                    </select>
-                    <button type="submit">Add to cart</button>
-                  </div>
-                </form> */}
               </h2>
-
-              // <li key={stock.quote.symbol}>
-              //   {stock.quote.symbol} {stock.quote.companyName}
-              // </li>
             ))}
           </div>
         </div>
@@ -152,7 +127,8 @@ class Profile extends Component {
 const mapState = state => {
   return {
     email: state.user.email,
-    budget: state.user.budget
+    budget: state.user.budget,
+    id: state.user.id
   }
 }
 
@@ -160,5 +136,6 @@ export default connect(mapState, null)(Profile)
 
 Profile.propTypes = {
   email: PropTypes.string,
-  budget: PropTypes.number
+  budget: PropTypes.number,
+  id: PropTypes.number
 }

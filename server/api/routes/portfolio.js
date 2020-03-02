@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Portfolio} = require('../../db/models')
+const {User, Portfolio} = require('../../db/models')
 // const utils = require('./utils')
 module.exports = router
 
@@ -9,9 +9,16 @@ router.post('/', async (req, res, next) => {
     let newPortfolio = await Portfolio.create({
       stock: req.body.stock,
       quantity: req.body.quantity,
-      price: req.body.price
+      price: req.body.price,
+      userId: req.body.userId
     })
     console.log('hello')
+    let account = await User.findByPk(req.body.userId)
+    console.log(account)
+    let currentBalance = account.budget
+    await account.update({
+      budget: Number(currentBalance) - Number(req.body.price)
+    })
     res.send(newPortfolio)
   } catch (err) {
     next(err)
