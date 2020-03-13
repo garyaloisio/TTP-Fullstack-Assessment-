@@ -22,7 +22,7 @@ const User = db.define('user', {
   },
   budget: {
     type: Sequelize.DECIMAL,
-    defaultValue: 50000.95,
+    defaultValue: 5000.0,
     validate: {
       min: 0
     }

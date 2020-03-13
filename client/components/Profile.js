@@ -12,10 +12,15 @@ class Profile extends Component {
       error: null,
       isLoaded: false,
       items: [],
-      quantity: 1
+      quantity: 1,
+      value: '',
+      ticker: '',
+      latestPrice: 0
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleChangeTwo = this.handleChangeTwo.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    // this.baseState = this.state
   }
 
   componentDidMount() {
@@ -42,9 +47,19 @@ class Profile extends Component {
       )
   }
 
+  // resetForm = () => {
+  //   this.setState(this.baseState)
+  // }
+
   handleChange(event) {
     this.setState({
-      [event.target.name]: Number(event.target.value)
+      [event.target.name]: event.target.value
+    })
+  }
+
+  handleChangeTwo(event) {
+    this.setState({
+      [event.target.name]: event.target.value
     })
   }
 
@@ -56,7 +71,7 @@ class Profile extends Component {
       userId: this.props.id,
       budget: this.props.budget
     })
-    console.log(stockName, price, quantity, id, budget)
+    console.log('hello', stockName, price, quantity, id, budget)
   }
 
   render() {
@@ -77,7 +92,7 @@ class Profile extends Component {
       return (
         <div>
           <h1>Welcome {email}</h1>
-          <h1>Budget: {budget}</h1>
+          <h1>Budget: ${Number.parseFloat(budget).toFixed(2)}</h1>
           <div>
             {values.map(stock => (
               <h2 key={stock.quote.symbol}>
@@ -85,8 +100,10 @@ class Profile extends Component {
                 <ul>
                   Ticker Symbol: {stock.quote.symbol}
                   <br />
-                  Price Per Share: {stock.quote.latestPrice}
+                  Price Per Share: $
+                  {Number.parseFloat(stock.quote.latestPrice).toFixed(2)}
                 </ul>
+
                 <form onSubmit={this.handleClick}>
                   <label>Quantity:</label>
                   <select
@@ -101,20 +118,20 @@ class Profile extends Component {
                     <option>{4}</option>
                     <option>{5}</option>
                   </select>
+                  <button
+                    onClick={() =>
+                      this.handleClick(
+                        stock.quote.symbol,
+                        stock.quote.latestPrice,
+                        this.state.quantity,
+                        this.props.id,
+                        this.props.budget
+                      )
+                    }
+                  >
+                    Buy
+                  </button>
                 </form>
-                <button
-                  onClick={() =>
-                    this.handleClick(
-                      stock.quote.symbol,
-                      stock.quote.latestPrice,
-                      this.state.quantity,
-                      this.props.id,
-                      this.props.budget
-                    )
-                  }
-                >
-                  Buy
-                </button>
               </h2>
             ))}
           </div>
@@ -138,4 +155,63 @@ Profile.propTypes = {
   email: PropTypes.string,
   budget: PropTypes.number,
   id: PropTypes.number
+}
+
+{
+  /* <form onSubmit={this.handleClick}>
+            <label>Stock</label>
+            <select
+              type="text"
+              name="ticker"
+              value={this.state.ticker}
+              onChange={this.handleChange}
+              type="text"
+              name="latestPrice"
+              value={this.state.latestPrice}
+              onChange={this.handleChangeTwo}
+            >
+              <select
+                type="text"
+                name="latestPrice"
+                value={this.state.latestPrice}
+                onChange={this.handleChange}
+              >
+              {values.map(stock => (
+                <option
+                  type="text"
+                  name="latestPrice"
+                  value={this.state.latestPrice}
+                  onChange={this.handleChangeTwo}
+                >
+                  {stock.quote.symbol}
+                </option>
+              ))}
+            </select>
+            <label>Quantity:</label>
+            <select
+              type="text"
+              name="quantity"
+              value={this.state.quantity}
+              onChange={this.handleChange}
+            >
+              <option>{1}</option>
+              <option>{2}</option>
+              <option>{3}</option>
+              <option>{4}</option>
+              <option>{5}</option>
+            </select>
+            <button
+              onClick={() =>
+                this.handleClick(
+                  this.state.ticker,
+                  this.state.latestPrice,
+                  this.state.quantity,
+                  this.props.id,
+                  this.props.budget
+                )
+              }
+            >
+              Buy
+            </button>
+          </form> */
 }

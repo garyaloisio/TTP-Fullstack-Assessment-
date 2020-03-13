@@ -25,6 +25,59 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+router.get('/myport', async (req, res, next) => {
+  try {
+    const myPortfolio = await Portfolio.findAll({
+      include: [{model: User}],
+      where: {
+        userId: req.user.id
+      }
+    })
+    console.log('HELLOOOO', myPortfolio)
+    res.json(myPortfolio)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const myPortfolio = await Portfolio.findAll({
+//       // explicitly select only the id and email fields - even though
+//       // users' passwords are encrypted, it won't help if we just
+//       // send everything to anyone who asks!
+//       attributes: ['id', 'email']
+//     })
+//     res.json(users)
+//   } catch (err) {
+//     next(err)
+//   }
+// })
+
+// router.get('/', async (req, res, next) => {
+//   try {
+//     if (!req.user) {
+//       if (!req.session.cart) {
+//         req.session.cart = []
+//         res.json(req.session.cart)
+//       } else {
+//         res.json(req.session.cart)
+//       }
+//     } else {
+//       const portfolio = await Cart.findOne({
+//         // include: [{model: Product}],
+//         where: {
+//           userId: req.user.id,
+//           active: true
+//         }
+//       })
+//       res.json(cart)
+//     }
+//   } catch (err) {
+//     next(err)
+//   }
+// })
+
 // router.get('/active', async (req, res, next) => {
 //   try {
 //     if (!req.user) {
