@@ -63,17 +63,35 @@ class UserHistory extends Component {
 
   listMyStocks(portfolio, json) {
     let obj = {}
+    let string = ''
     console.log('the portfolio', portfolio)
     for (let i = 0; i < portfolio.length; i++) {
       let num = Number(portfolio[i].quantity)
-      if (obj[portfolio[i].stock] == undefined) {
+      if (obj[portfolio[i].stock] === undefined) {
         obj[portfolio[i].stock] = num
       } else {
         obj[portfolio[i].stock] += num
       }
     }
     let array = Object.entries(obj)
-    console.log('GFGHVGHV', array)
+    for (let j = 0; j < array.length; j++) {
+      for (let k = 0; k < json.length; k++) {
+        if (array[j][0] === json[k].quote.symbol) {
+          // console.log('FFFFF', array[j][1])
+          let num =
+            array[j][1] *
+            Number.parseFloat(json[k].quote.latestPrice).toFixed(2)
+          let roundedNum = num.toFixed(2)
+          console.log('DDDDDDDD', num.toFixed(2))
+          string += `You have ${array[j][0]} - ${
+            array[j][1]
+          } shares $${roundedNum} `
+        }
+      }
+    }
+    console.log('RRRRRRR', string)
+    return string
+    // console.log('GFGHVGHV', json)
   }
 
   render() {
@@ -106,7 +124,7 @@ class UserHistory extends Component {
           </div>
           <div>
             <h1>My Current Portfoliio</h1>
-            <h2>{this.listMyStocks(this.state.stocks, values)}</h2>
+            <ul>{this.listMyStocks(this.state.stocks, values)}</ul>
           </div>
         </div>
       )
