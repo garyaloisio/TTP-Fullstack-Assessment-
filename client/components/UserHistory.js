@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import axios from 'axios'
+import {Card, CardGroup} from 'react-bootstrap'
 
 class UserHistory extends Component {
   constructor(props) {
@@ -63,7 +64,7 @@ class UserHistory extends Component {
 
   listMyStocks(portfolio, json) {
     let obj = {}
-    let string = ''
+    let string = []
     console.log('the portfolio', portfolio)
     for (let i = 0; i < portfolio.length; i++) {
       let num = Number(portfolio[i].quantity)
@@ -83,9 +84,7 @@ class UserHistory extends Component {
             Number.parseFloat(json[k].quote.latestPrice).toFixed(2)
           let roundedNum = num.toFixed(2)
           console.log('DDDDDDDD', num.toFixed(2))
-          string += `You have ${array[j][0]} - ${
-            array[j][1]
-          } shares $${roundedNum} `
+          string.push(`${array[j][0]} - ${array[j][1]} shares $${roundedNum} `)
         }
       }
     }
@@ -108,24 +107,40 @@ class UserHistory extends Component {
       console.log(values)
       return (
         <div>
-          <div>
-            <h1>Transactions</h1>
-            <h2>Current Budget: ${Number.parseFloat(budget).toFixed(2)}</h2>
-            {this.state.stocks.map(port => (
-              <h4 key={port.stock}>
-                Bought ({port.stock}) - {port.quantity} Shares @ $
-                {Number.parseFloat(port.price / port.quantity).toFixed(2)} per
-                share on {port.createdAt.slice(0, 10)}
-                <h4>
-                  Current Price ${this.findItem(port.stock, values)} per share
-                </h4>
-              </h4>
-            ))}
-          </div>
-          <div>
-            <h1>My Current Portfoliio</h1>
-            <ul>{this.listMyStocks(this.state.stocks, values)}</ul>
-          </div>
+          <CardGroup>
+            <Card>
+              <Card.Body>
+                <div>
+                  <Card.Title>Transactions</Card.Title>
+                  <Card.Subtitle>
+                    Current Budget: ${Number.parseFloat(budget).toFixed(2)}
+                  </Card.Subtitle>
+                  {this.state.stocks.map(port => (
+                    <Card.Text key={port.stock}>
+                      Bought ({port.stock}) - {port.quantity} Shares @ $
+                      {Number.parseFloat(port.price / port.quantity).toFixed(
+                        2
+                      )}{' '}
+                      per share on {port.createdAt.slice(0, 10)}
+                      <Card.Text>
+                        Current Price ${this.findItem(port.stock, values)} per
+                        share
+                      </Card.Text>
+                    </Card.Text>
+                  ))}
+                </div>
+              </Card.Body>
+            </Card>
+            <div>
+              <Card>
+                <Card.Title>My Current Portfoliio</Card.Title>
+
+                {this.listMyStocks(this.state.stocks, values).map(sentence => (
+                  <Card.Text>{sentence}</Card.Text>
+                ))}
+              </Card>
+            </div>
+          </CardGroup>
         </div>
       )
     }
