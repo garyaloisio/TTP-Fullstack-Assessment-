@@ -100,6 +100,15 @@ const createApp = () => {
   })
 }
 
+app.use(express.static(__dirname))
+
+// send the user to index html page inspite of the url
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'index.html'))
+})
+
+app.listen(PORT)
+
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
   const server = app.listen(PORT, () =>
