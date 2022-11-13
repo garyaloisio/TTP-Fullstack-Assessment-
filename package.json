@@ -110,7 +110,7 @@
     "style-loader": "^0.23.1",
     "supertest": "^4.0.2",
     "webpack": "^4.38.0",
-    "webpack-cli": "^3.3.6",
+    "webpack-cli": "^3.3.12",
     "yaml": "^1.6.0"
   }
 }
